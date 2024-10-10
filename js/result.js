@@ -69,6 +69,23 @@ fetch(url)
         const headers = data.values[0];
         const rows = data.values.slice(1);
 
+        // Создаем объект для группировки записей
+        const groupedData = {};
+
+        rows.forEach(row => {
+            const key = row.join('|'); // Используем объединение значений в строку как ключ
+            if (!groupedData[key]) {
+                groupedData[key] = row; // Сохраняем первую запись
+            } else {
+                // Если запись уже существует, можно объединить данные
+                // Например, если нужно суммировать значения из одной из колонок:
+                // groupedData[key][1] += row[1]; // Пример для суммирования второго столбца
+            }
+        });
+
+        // Преобразуем объект обратно в массив
+        const uniqueRows = Object.values(groupedData);
+
         // Создаем контейнер для данных
         const container = document.createElement('div');
         container.className = 'table';
@@ -85,7 +102,7 @@ fetch(url)
         container.appendChild(headerDiv);
 
         // Заполняем строки данных
-        rows.forEach(row => {
+        uniqueRows.forEach(row => {
             const rowDiv = document.createElement('div');
             rowDiv.className = 'row';
             row.forEach(cell => {
