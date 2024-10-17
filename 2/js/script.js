@@ -18,6 +18,21 @@ Nick - entry.1429500737
 
 */
 
+document.addEventListener("DOMContentLoaded", function() {
+  // Проверяем, существует ли элемент в localStorage
+if (localStorage.getItem('KrisVoice') === null) {
+  // Если не существует, устанавливаем его значение
+  localStorage.setItem('KrisVoice', 0);
+  console.log('Элемент KrisVoice был создан и установлен в 0.');
+} else {
+  console.log('Элемент KrisVoice уже существует:', localStorage.getItem('KrisVoice'));
+}
+  let krischeck = localStorage.getItem("KrisVoice"); console.log(krischeck)
+  if (localStorage.getItem('KrisVoice') == 1) {
+    document.querySelector('.preview_audiofile').remove();
+  }
+});
+
 RUS_Questions = [
 
         {
@@ -273,6 +288,7 @@ function playAudioAndRemoveDiv() {
         // Удаляем div после завершения воспроизведения
         audio.onended = function() {
             previewDiv.remove(); // Удаляем div
+            localStorage.setItem("KrisVoice",1);
         };
     }
 }
